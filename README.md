@@ -21,6 +21,9 @@ This repository implements a masked diffusion language modeling framework for da
 - **Frequency-Informed Masking**: Progressive prioritization (curriculm) of rare tokens during training, which integrates seamlessly with the MDLM framework
 - **NELBO Reweighting**: Exploration of different weighting schemes to optimize performance across schedules
 
+![Noise Schedule Evolution](assets/noise_schedule_evolution.gif)
+
+
 ### 🎯 Results
 Our method achieves competitive performance with state-of-the-art baselines (GPT-BERT) on the BabyLM benchmarks, demonstrating that diffusion-based training offers a viable alternative for data-restricted language learning.
 
