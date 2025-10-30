@@ -1,8 +1,8 @@
-# 🎭 Masked Diffusion Language Models with Frequency-Informed Training
-
 <div align="center">
+    
+# 🎭 Masked Diffusion Language Models <br> with Frequency-Informed Training
 
-### ⭐ Oral Presentation at BabyLM Workshop @ EMNLP 2025
+### ⭐ Challenge Award at BabyLM Workshop @ EMNLP 2025
 
 [**📄 Paper**](https://arxiv.org/abs/2509.05056) • [**🤗 Models**](https://huggingface.co/despoinakk) • [**💻 Code**](https://github.com/DespoinaKK/babylm-diffusion)
 
@@ -10,17 +10,18 @@
 
 ---
 
-Code implementation of **"Masked Diffusion Language Models with Frequency-Informed Training"** submitted to the BabyLM Challenge 2025.
+Official PyTorch implementation of **"Masked Diffusion Language Models with Frequency-Informed Training"**
 
 ## 🌟 Overview
 
 This repository implements a masked diffusion language modeling framework for data-efficient training under strict data constraints. Our approach combines:
 
-- **Masked Diffusion Language Models (MDLMs)**: Bidirectional context modeling with generative capabilities through a principled diffusion objective
-- **Multiple Noise Schedules**: Cosine, uniform, and experimental Gaussian schedules
-- **Frequency-Informed Masking**: Progressive prioritization of rare tokens during training while maintaining theoretical validity
-- **NELBO Weighting Exploration**: Different derivative weighting schemes within the diffusion objective
+- **Masked Diffusion Language Models (MDLMs)**: A discrete diffusion approach that uses masked language modelling (bidirectional context) to generate text
+- **Novel Noise Schedules**: Bimodal Gaussian (our best model) and cosine (submission's model)
+- **Frequency-Informed Masking**: Progressive prioritization (curriculm) of rare tokens during training, which integrates seamlessly with the MDLM framework
+- **NELBO Reweighting**: Exploration of different weighting schemes to optimize performance across schedules
 
+### 🎯 Results
 Our method achieves competitive performance with state-of-the-art baselines (GPT-BERT) on the BabyLM benchmarks, demonstrating that diffusion-based training offers a viable alternative for data-restricted language learning.
 
 ## 🚀 Installation
@@ -120,8 +121,16 @@ Performance comparison on BabyLM Challenge zero-shot tasks:
 
 ## 📝 Citation
 
-If you use this code or our models, please cite:
-...TBA...
+If you find this work useful for your research, please consider citing our paper:
+
+```bibtex
+@article{kosmopoulou2025masked,
+  title={Masked Diffusion Language Models with Frequency-Informed Training},
+  author={Kosmopoulou, Despoina and Georgiou, Efthymios and Dorovatas, Vaggelis and Paraskevopoulos, Georgios and Potamianos, Alexandros},
+  journal={arXiv preprint arXiv:2509.05056},
+  year={2025}
+}
+```
 
 ## 📚 References
 
@@ -174,5 +183,5 @@ This repo is based on work from:
 ## 📧 Contact
 
 For questions or issues, please open a GitHub issue or contact:
-- Despoina: despoinakkosmopoulou@gmail.com
-- Efthymis: efthymios.georgiou@unibe.ch
+- [Despoina](https://scholar.google.com/citations?user=roxd-tsAAAAJ&hl=en&oi=sra) | [github](https://github.com/DespoinaKK) | despoinakkosmopoulou[at]gmail[dot]com
+- [Efthymis](https://scholar.google.com/citations?user=5Sc6GvEAAAAJ&hl=en) | [github](https://github.com/efthymisgeo) | efthymios[dot]georgiou[at]unibe[dot]ch
