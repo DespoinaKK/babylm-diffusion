@@ -107,7 +107,7 @@ We also include our new 512-seq-len model's results, trained with the Gaussian B
 
 Performance comparison on BabyLM Challenge zero-shot tasks:
 
-| Task | GPT-BERT Baseline | Submission (Cosine) | **Updated (Bimodal Gaussian)** |
+| Task | Baseline <br> (GPT-BERT)  | Submission <br> (Cosine) | **Best <br> (Bimodal Gaussian)** |
 |------|-------------------|---------------------|-------------------------------|
 | BLiMP | 80.5 | 76.9 | 78.2 |
 | BLiMP Supplement | 73.0 | 72.4 |73.6 |
@@ -117,9 +117,10 @@ Performance comparison on BabyLM Challenge zero-shot tasks:
 
 ## 🤗 Hugginface Pretrained Models
 
-[[Cosine Schedule - Submission]](https://huggingface.co/despoinakk/diffusion_cosine_babylm)
-
-[[Bimodal Gaussian Schedule - Updated and Improved Model]](https://huggingface.co/despoinakk/diffusion_gaussian_babylm)
+| Model | Downloads |
+|-------|-----------|
+| [Cosine - Submission](https://huggingface.co/despoinakk/diffusion_cosine_babylm) | ![](https://img.shields.io/badge/dynamic/json?url=https://huggingface.co/api/models/despoinakk/diffusion_cosine_babylm&query=$.downloads&label=&color=green) |
+| [Bimodal Gaussian - Best](https://huggingface.co/despoinakk/diffusion_gaussian_babylm) | ![](https://img.shields.io/badge/dynamic/json?url=https://huggingface.co/api/models/despoinakk/diffusion_gaussian_babylm&query=$.downloads&label=&color=green) |
 
 
 ## 📝 Citation
