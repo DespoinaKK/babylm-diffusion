@@ -123,7 +123,7 @@ Performance comparison on BabyLM Challenge zero-shot tasks:
 If you use this code or our models, please cite:
 ...TBA...
 
-## 🙏 Acknowledgments
+## 📚 References
 
 This repo is based on work from:
 - [Simple and Effective Masked Diffusion Language Models](https://arxiv.org/abs/2406.07524)
