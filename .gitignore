@@ -1,0 +1,6 @@
+.git
+scripts/
+model_checkpoints/
+outputs/
+*__pycache__*
+*.pt

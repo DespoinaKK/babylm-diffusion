@@ -1,0 +1,178 @@
+# 🎭 Masked Diffusion Language Models with Frequency-Informed Training
+
+<div align="center">
+
+### ⭐ Oral Presentation at BabyLM Workshop @ EMNLP 2025
+
+[**📄 Paper**](https://arxiv.org/abs/2509.05056) • [**🤗 Models**](https://huggingface.co/despoinakk) • [**💻 Code**](https://github.com/DespoinaKK/babylm-diffusion)
+
+</div>
+
+---
+
+Code implementation of **"Masked Diffusion Language Models with Frequency-Informed Training"** submitted to the BabyLM Challenge 2025.
+
+## 🌟 Overview
+
+This repository implements a masked diffusion language modeling framework for data-efficient training under strict data constraints. Our approach combines:
+
+- **Masked Diffusion Language Models (MDLMs)**: Bidirectional context modeling with generative capabilities through a principled diffusion objective
+- **Multiple Noise Schedules**: Cosine, uniform, and experimental Gaussian schedules
+- **Frequency-Informed Masking**: Progressive prioritization of rare tokens during training while maintaining theoretical validity
+- **NELBO Weighting Exploration**: Different derivative weighting schemes within the diffusion objective
+
+Our method achieves competitive performance with state-of-the-art baselines (GPT-BERT) on the BabyLM benchmarks, demonstrating that diffusion-based training offers a viable alternative for data-restricted language learning.
+
+## 🚀 Installation
+```bash
+# Clone the repository
+git clone https://github.com/DespoinaKK/babylm-diffusion
+cd babylm-diffusion
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+## ⚡ Quick Start
+
+### 1. Data Preparation
+
+First, train a BPE tokenizer on your corpus:
+```bash
+python tokenization/create_tokenizer.py \
+    --input_path /path/to/data \
+    --vocab_size 16384 \
+    --vocab_path ./tokenizers/tokenizer.json
+```
+
+Then tokenize your dataset:
+```bash
+python tokenization/tokenize_corpus.py \
+    --data_folder /path/to/data \
+    --train_file data.train \
+    --valid_file data.valid \
+    --tokenizer_folder ./tokenizers \
+    --tokenizer_file tokenizer.json \
+    --name tokenized
+```
+
+### 2. Training
+
+For distributed training, adapt the scripts in `slurm-scripts`.
+
+## 🔑 Key Components
+
+### 🌊 Noise Schedules
+
+**Cosine Schedule** (`masking/noise_schedules.py`):
+- Focuses on lower masking rates
+- Average masking rate: 0.36
+
+**Gaussian Schedules**:
+- **Unimodal**
+- **Bimodal**: Mixture distribution combining low and high masking modes
+- Requires derivative softening (γ < 1.0) for stable training
+
+
+### 📊 Frequency-Informed Masking
+
+The frequency-informed masking strategy assigns higher masking probabilities to rare tokens. Implementation in `masking/frequency_masking.py`:
+
+1. **Token Ranking**: Tokens ranked by global corpus frequency
+2. **Min-Max Normalization**: Per-sequence normalization to [0,1]
+3. **Softening**: Weights raised to power p < 1 to prevent over-emphasis on extremely rare tokens
+4. **Conditional Scaling**: Ensures mean masking probability matches target rate (1 - α_t)
+
+Optional curriculum learning progressively increases p from 0 to 0.02 across epochs.
+
+
+## 📈 Evaluation
+
+Models are evaluated using the [BabyLM Challenge evaluation pipeline](https://github.com/babylm/evaluation-pipeline-2025/) with MLM pseudo-likelihood backend:
+
+- **Zero-shot**: BLiMP, BLiMP Supplement, EWoK, Entity Tracking, COMPS
+- **Finetuning**: GLUE and SuperGLUE subsets. For finetuning, we provide the `eval-utils/classifier.py` helper file, with minor tensor shape changes to match our models. 
+- **Human-likeness**: Reading task, Age of Acquisition, morphology tasks correlation with human performance
+
+Evaluation can be run with or without time conditioning (see paper Section 3.2).
+
+
+## 🎯 Updated Results - Bimodal Gaussian Schedule
+See paper for full results and ablations.
+We also include our new 512-seq-len model's results, trained with the Gaussian Bimodal noise schedule described in the paper:
+
+Performance comparison on BabyLM Challenge zero-shot tasks:
+
+| Task | GPT-BERT Baseline | Submission (Cosine) | **Updated (Bimodal Gaussian)** |
+|------|-------------------|---------------------|-------------------------------|
+| BLiMP | 80.5 | 76.9 | 78.2 |
+| BLiMP Supplement | 73.0 | 72.4 |73.6 |
+| EWoK | 52.4 | 51.8 | 52.5 |
+| COMPS | 59.7 | 56.4 | 56.6 |
+| Entity Tracking | 39.9 | 40.8 | 39.7 |
+
+## 🤗 Hugginface Pretrained Models
+
+[[Cosine Schedule - Submission]](https://huggingface.co/despoinakk/diffusion_cosine_babylm)
+
+[[Bimodal Gaussian Schedule - Updated and Improved Model]](https://huggingface.co/despoinakk/diffusion_gaussian_babylm)
+
+
+## 📝 Citation
+
+If you use this code or our models, please cite:
+...TBA...
+
+## 🙏 Acknowledgments
+
+This repo is based on work from:
+- [Simple and Effective Masked Diffusion Language Models](https://arxiv.org/abs/2406.07524)
+- [GPT or BERT: why not both?](https://aclanthology.org/2024.conll-babylm.23/) 
+- Architecture adapted from [LTG-BERT](https://arxiv.org/abs/2303.09859)
+
+
+## 📁 Code Structure
+```
+.
+├── main.py                      # Main training entry point
+├── model.py                     # Transformer model with diffusion
+├── config/                      # Configuration and arguments
+│   ├── arguments.py            # CLI argument parsing
+│   └── model_configuration.py  # Model architecture config
+├── data/                        # Data loading and processing
+│   ├── dataset.py              # Dataset implementation
+│   ├── dataset_manager.py      # Manage Datasets (loading)
+│   └── dataset_utils.py        # Utilities for data
+├── eval-utils
+│   └── classifier_model.py      # file to use for finetuning
+├── masking/                     # Masking strategies
+│   ├── noise_schedules.py      # Diffusion noise schedules
+│   ├── masking_processor.py    # Token masking logic
+│   ├── frequency_masking.py    # Frequency-informed masking
+│   └── batch_processing.py     # Batch preparation
+├── training/                    # Training infrastructure
+│   ├── training_loop.py        # Main training loop
+│   ├── ema.py                  # Exponential moving average
+│   ├── checkpoint_manager.py   # Checkpoint saving
+│   ├── validation.py           # Validation during training
+│   ├── model_setup.py          # Model loading and optimizer setup
+│   └── distributed_setup.py    # DDP setup
+├── tokenization/                # Tokenization scripts
+│   ├── create_tokenizer.py     # Train BPE tokenizer
+│   └── tokenize_corpus.py      # Tokenize datasets
+├── optimization/                # Optimizers
+│   └── lamb.py                 # LAMB optimizer
+└── slurm-scripts/               # Scripts
+    ├── slurm-train.sh          # SLURM job script
+    ├── launch-train.sh         # Local launch script
+    ├── config-cosine.json      # Cosine schedule config example 
+    └── config-gauss.json       # Gaussian schedule config example
+```
+
+
+
+## 📧 Contact
+
+For questions or issues, please open a GitHub issue or contact:
+- Despoina: despoinakkosmopoulou@gmail.com
+- Efthymis: efthymios.georgiou@unibe.ch
