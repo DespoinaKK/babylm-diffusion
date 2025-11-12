@@ -41,6 +41,7 @@ pip install -r requirements.txt
 ## ⚡ Quick Start
 
 ### 1. Data Preparation
+For our models, we use the BabyLM corpus, for the strict track (100M words). You can find more information [here](https://babylm.github.io/).
 
 First, train a BPE tokenizer on your corpus:
 ```bash
@@ -63,7 +64,7 @@ python tokenization/tokenize_corpus.py \
 
 ### 2. Training
 
-For distributed training, adapt the scripts in `slurm-scripts`.
+For distributed training, adapt the scripts in `slurm-scripts`. Our models are trained on a single node with 4 A100 64GB gpus (you can adapt the setup to utilize only 1 gpu, modifying the slurm*.sh scripts). To specify the hyperparameters and noise schedules you want, modify the config files in `slurm-scripts`.
 
 ## 🔑 Key Components
 
