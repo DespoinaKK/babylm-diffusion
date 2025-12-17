@@ -3,7 +3,7 @@
 # 🎭 Masked Diffusion Language Models <br> with Frequency-Informed Training
 
 ### ⭐ Winners of the Strict Track (NLP tasks) of the BabyLM Challenge 2025
-###             Oral presentation - BabyLM Workshop @ EMNLP 2026
+###             Oral presentation - BabyLM Workshop @ EMNLP 2025
 
 [**📄 Paper**](https://arxiv.org/abs/2509.05056) • [**🤗 Models**](https://huggingface.co/despoinakk) • [**💻 Code**](https://github.com/DespoinaKK/babylm-diffusion)
 
